@@ -23,11 +23,6 @@ public class EmailService {
                 .parser(new Parser<EmailService>() {
 
                     @Override
-                    public String getVariableNamePattern() {
-                        return ".+";
-                    }
-
-                    @Override
                     public EmailService parse(String arg0, ParseContext arg1) {
                         return null;
                     }

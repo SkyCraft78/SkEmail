@@ -12,6 +12,7 @@ import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import com.olyno.skemail.scopes.ScopeEmailCreation;
 import org.bukkit.event.Event;
+import org.jetbrains.annotations.NotNull;
 
 import javax.mail.Message;
 
@@ -30,12 +31,12 @@ public class ExprLastEmailCreated extends SimpleExpression<Message> {
     }
 
     @Override
-    public boolean init(Expression<?>[] exprs, int matchedPattern, Kleenean isDelayed, SkriptParser.ParseResult parser) {
+    public boolean init(Expression<?> @NotNull [] exprs, int matchedPattern, @NotNull Kleenean isDelayed, SkriptParser.@NotNull ParseResult parser) {
         return true;
     }
 
     @Override
-    protected Message[] get(Event e) {
+    protected Message @NotNull [] get(@NotNull Event e) {
         return new Message[]{ScopeEmailCreation.lastEmail};
     }
 
@@ -45,12 +46,12 @@ public class ExprLastEmailCreated extends SimpleExpression<Message> {
     }
 
     @Override
-    public Class<? extends Message> getReturnType() {
+    public @NotNull Class<? extends Message> getReturnType() {
         return Message.class;
     }
 
     @Override
-    public String toString(Event e, boolean debug) {
+    public @NotNull String toString(Event e, boolean debug) {
         return "last email created";
     }
 

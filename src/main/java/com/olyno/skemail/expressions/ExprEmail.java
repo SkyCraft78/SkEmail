@@ -11,8 +11,8 @@ import ch.njol.skript.lang.SkriptParser.ParseResult;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import com.olyno.skemail.scopes.ScopeEmailCreation;
-import com.olyno.skemail.util.EffectSection;
 import org.bukkit.event.Event;
+import org.jetbrains.annotations.NotNull;
 
 import javax.mail.Message;
 
@@ -42,19 +42,19 @@ public class ExprEmail extends SimpleExpression<Message> {
                 "[(the|an|[a] new|this|that)] [e]mail [(creator|build[er])]");
     }
 
-    private boolean scope = false;
+    private ScopeEmailCreation scope;
 
     @Override
     @SuppressWarnings("unchecked")
-    public boolean init(Expression<?>[] expr, int arg1, Kleenean arg2, ParseResult arg3) {
-        scope = EffectSection.isCurrentSection(ScopeEmailCreation.class);
-        return scope;
+    public boolean init(Expression<?> @NotNull [] expr, int arg1, @NotNull Kleenean arg2, @NotNull ParseResult arg3) {
+        scope = getParser().getCurrentSection(ScopeEmailCreation.class);
+        return scope != null;
     }
 
     @Override
-    protected Message[] get(Event e) {
+    protected Message @NotNull [] get(@NotNull Event e) {
         return new Message[]{
-                scope ? ScopeEmailCreation.lastEmail : null
+                scope != null ? ScopeEmailCreation.lastEmail : null
         };
     }
 
@@ -64,12 +64,12 @@ public class ExprEmail extends SimpleExpression<Message> {
     }
 
     @Override
-    public Class<? extends Message> getReturnType() {
+    public @NotNull Class<? extends Message> getReturnType() {
         return Message.class;
     }
 
     @Override
-    public String toString(Event e, boolean debug) {
+    public @NotNull String toString(Event e, boolean debug) {
         return "email";
     }
 }
